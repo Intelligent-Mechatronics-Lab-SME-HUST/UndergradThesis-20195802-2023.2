@@ -9,6 +9,9 @@ project(ur5_interface)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometric_shapes
+  message_generation
+  std_msgs
+  geometry_msgs
   moveit_core
   moveit_ros_planning
   moveit_ros_planning_interface
@@ -20,7 +23,6 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_eigen
   tf2_geometry_msgs
   tf2_ros
-  hri_msg
 )
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED system filesystem date_time thread)
@@ -59,11 +61,10 @@ catkin_python_setup()
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  HumanJoint.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -80,10 +81,11 @@ catkin_python_setup()
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   tf2_geometry_msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+  geometry_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -124,7 +126,7 @@ catkin_package(
     moveit_ros_planning_interface
      moveit_visual_tools
       pcl_conversions pcl_ros roscpp rviz_visual_tools tf2_eigen tf2_geometry_msgs tf2_ros
-      hri_msg
+  message_runtime std_msgs geometry_msgs
  DEPENDS
       EIGEN3
   
@@ -183,10 +185,10 @@ ${Boost_LIBRARIES}
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/node_controller.py
-  scripts/moveit_node.py
-  scripts/CPA_controller.py
-  scripts/human_detector.py
+#  scripts/node_controller.py
+scripts/moveit_node.py
+#  scripts/CPA_controller.py
+#  scripts/human_detector.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -13,7 +13,7 @@ import tf
 import os
 import pickle
 
-from hri_msg.msg import HumanJoint
+from ur5_interface.msg import HumanJoint
 from moveit_msgs.msg import RobotTrajectory
 
 
@@ -131,18 +131,6 @@ if __name__ == "__main__":
     group.go(wait=True)
 
     #!- Set Start Pose -!#
-    # quaternion = tf.transformations.quaternion_from_euler(-2.918, 0.123, -0.715)
-    # pose_goal = geometry_msgs.msg.Pose()
-    # pose_goal.position.x = 0.1
-    # pose_goal.position.y = 0.601
-    # pose_goal.position.z = 0.441
-    # pose_goal.orientation.x = quaternion[0]
-    # pose_goal.orientation.y = quaternion[1]
-    # pose_goal.orientation.z = quaternion[2]
-    # pose_goal.orientation.w = quaternion[3]
-    # group.set_pose_target(pose_goal)
-    # group.go(wait=True)
-
     joint_target = [0.954, -0.893, 0.901, -1.567, -1.559, 0.0]
     group.set_joint_value_target(joint_target)
     group.go(wait=True)
@@ -159,31 +147,34 @@ if __name__ == "__main__":
     pose_goal.orientation.w = quaternion[3]
     group.set_pose_target(pose_goal)
 
-    # success, plan, *other = group.plan(pose_goal)
-
-    # saved_plan = group.plan(pose_goal)
-
-    file_path = os.path.join(os.path.expanduser("~"), "saved_trajectories", "plan.pickle")
+    file_path = os.path.join(os.path.dirname(__file__), "plan.pickle")
     
-    #!- Publish Reference Traj -!#
-    usr = input("Confirm Plan: ")
-    # group.execute(plan)
+    # Save Plan -----------------------------------------------
+    # usr = input("Confirm Plan: ")
 
     # while(usr == "r"):
     #     saved_plan = group.plan(pose_goal)
-        # success, plan, *other = group.plan(pose_goal)
-        # usr = input("Confirm Plan: ")
+    #     usr = input("Confirm Plan: ")
 
     # with open(file_path, 'wb') as fp:
     #     pickle.dump(saved_plan, fp)
+    #----------------------------------------------------------
+    
+    # Re-check Plan -------------------------------------------
+    # with open(file_path, 'rb') as file_open:
+    #     plan = pickle.load(file_open)[1]
+    #     input("Press Enter to Start...")
+    #     group.execute(plan)
+    #     print("Done")
+    #----------------------------------------------------------
+        
 
+    # Publish Reference Traj ----------------------------------
     with open(file_path, 'rb') as file_open:
         plan = pickle.load(file_open)[1]
-        # input()
-        # rospy.sleep(1.5)
+        input("Press Enter to Start...")
         pub_traj.publish(plan)
         # rospy.sleep(2)
-        # group.execute(plan)
-        # print(plan)
+    #----------------------------------------------------------
 
-    # rospy.spin()
+    rospy.spin()

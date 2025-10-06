@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import rospy
-from hri_msg.msg import HumanJoint
+from ur5_interface.msg import HumanJoint
 from visualization_msgs.msg import Marker
 
 if __name__ == "__main__":

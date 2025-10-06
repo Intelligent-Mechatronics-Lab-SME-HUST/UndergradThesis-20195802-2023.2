@@ -1,0 +1,34 @@
+# Cai dat UR ROS Driver
+sudo apt install ros-${ROS_DISTRO}-ur-robot-driver ros-${ROS_DISTRO}-ur-calibration
+
+# Cai dat UR Moveit
+sudo apt install ros-noetic-moveit
+sudo apt-get install ros-$ROS_DISTRO-universal-robots
+
+# Cai dat UR Moveit Visual Tools
+sudo apt install ros-noetic-moveit-visual-tools
+
+# Lib check collision
+pip install python-fcl==0.6.11
+
+# build
+cd ~/hri_ws
+catkin_make
+
+# Run
+source ~/hri_ws/devel/setup.bash
+roslaunch ur5_new_robot spawn_ur5_new_robot.launch
+"Click play button on Gazebo window"
+
+# new_terminal_1
+roslaunch ur5_moveit_config moveit_rviz.launch
+
+# new_terminal_2
+
+
+
+
+## Nhan-------------------------------------------
+sudo chown -R $USER:$USER ~/hust_ws
+chmod -R 777 ~/hust_ws
+sudo chown -R ubuntu:ubuntu /home/ubuntu/hust_ws

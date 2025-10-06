@@ -7,7 +7,7 @@ from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryG
 from trajectory_msgs.msg import JointTrajectoryPoint
 from sensor_msgs.msg import JointState
 from test_pack.custom_lib import CollisionMonitor
-from hri_msg.msg import HumanJoint
+from ur5_interface.msg import HumanJoint
 import numpy as np
 from visualization_msgs.msg import Marker, MarkerArray
 

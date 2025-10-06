@@ -1,4 +1,4 @@
-from hri_msg.msg import HumanJoint
+from ur5_interface.msg import HumanJoint
 import fcl
 import numpy as np
 
