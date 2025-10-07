@@ -16,17 +16,20 @@ import pickle
 from ur5_interface.msg import HumanJoint
 from moveit_msgs.msg import RobotTrajectory
 
+PLAN_FILE = "plan_3.pickle"
+
 
 def replan_RRT_callback(msg:HumanJoint):
     print("REPLAN")
     scene.remove_world_object("human")
-    human = geometry_msgs.msg.PoseStamped()
-    human.header.frame_id = group.get_planning_frame()
-    human.pose.orientation.w = 1.0
-    human.pose.position.x = msg.position.x
-    human.pose.position.y = msg.position.y
-    human.pose.position.z = msg.position.z
-    scene.add_sphere("human", human, radius = 0.0545)
+    if msg.exist:
+        human = geometry_msgs.msg.PoseStamped()
+        human.header.frame_id = group.get_planning_frame()
+        human.pose.orientation.w = 1.0
+        human.pose.position.x = msg.position.x
+        human.pose.position.y = msg.position.y
+        human.pose.position.z = msg.position.z
+        scene.add_sphere("human", human, radius = 0.0545)
 
     group.set_pose_target(pose_goal)
     success = False
@@ -147,7 +150,7 @@ if __name__ == "__main__":
     pose_goal.orientation.w = quaternion[3]
     group.set_pose_target(pose_goal)
 
-    file_path = os.path.join(os.path.dirname(__file__), "plan.pickle")
+    file_path = os.path.join(os.path.dirname(__file__),"plans", PLAN_FILE)
     
     # Save Plan -----------------------------------------------
     # usr = input("Confirm Plan: ")
@@ -175,6 +178,5 @@ if __name__ == "__main__":
         input("Press Enter to Start...")
         pub_traj.publish(plan)
         # rospy.sleep(2)
-    #----------------------------------------------------------
-
     rospy.spin()
+    #----------------------------------------------------------

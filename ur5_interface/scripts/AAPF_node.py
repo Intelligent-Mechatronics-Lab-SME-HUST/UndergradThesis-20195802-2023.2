@@ -137,10 +137,10 @@ class ROSNode:
             pt: JointTrajectoryPoint
             pos_ref_list.append(list(pt.positions))
 
-        # self.visualize_ref_point(pos_ref_list)
-        pos_ref_list = [pos_ref_list[0],pos_ref_list[-1]]
-        print(pos_ref_list)
+        self.visualize_ref_point(pos_ref_list)
+        # print(pos_ref_list)
 
+        # Iterates through each ref points
         for pos_ref in pos_ref_list[1:]:
             pos_curr = np.array([self.get_pos_curr()])
 
@@ -151,7 +151,6 @@ class ROSNode:
             loop = 0
 
             while (np.any(err_curr > ERR_STD)) and loop < LOOP_MAX:
-                print(rospy.Time.now().to_sec())
                 #! Get Planning Scene
                 human_msg = rospy.wait_for_message("human_position_topic", HumanJoint)
                 self.planning_scene.update_planning_scene(pos_curr.tolist()[0], human_msg)
@@ -160,6 +159,7 @@ class ROSNode:
                 self.planning_scene.update_robot_goal(pos_goal.tolist()[0])
                 self.planning_scene.compute_Jacob_goal(pos_goal.tolist()[0])
                 goal_forces_list = []
+                
                 collision_flag = False
                 for link in self.planning_scene.robot_goal_state:
                     if collision_flag:

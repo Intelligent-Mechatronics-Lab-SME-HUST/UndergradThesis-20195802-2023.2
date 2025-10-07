@@ -11,14 +11,19 @@ if __name__ == "__main__":
     marker_dummy = rospy.Publisher("/human_topic_marker", Marker, queue_size=1)
 
     dummy_msg = HumanJoint()
-    dummy_msg.exist = False
-    # dummy_msg.position.x = 0.58
-    # dummy_msg.position.y = 0.42
-    # dummy_msg.position.z = 0.25
+    dummy_msg.exist = True
+    
+    # --- Replan in plan_3.pickle ---
+    # dummy_msg.position.x = 0.5
+    # dummy_msg.position.y = 0.45
+    # dummy_msg.position.z = 0.3
+    # ----------------------------------
 
+    # --- plan_3.pickle ---
     dummy_msg.position.x = 0.55
-    dummy_msg.position.y = 0.33
+    dummy_msg.position.y = 0.4
     dummy_msg.position.z = 0.24
+    # ----------------------------------
 
     dummy_marker = Marker()
     dummy_marker.header.frame_id = "base_link"
