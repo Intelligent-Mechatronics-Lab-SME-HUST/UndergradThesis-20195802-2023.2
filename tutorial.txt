@@ -11,21 +11,34 @@ sudo apt install ros-noetic-moveit-visual-tools
 # Lib check collision
 pip install python-fcl==0.6.11
 
+# Extract files
+mkdir -p ~/hri_ws/src
+
 # build
 cd ~/hri_ws
 catkin_make
 
-# Run
+# Simulation Env
 source ~/hri_ws/devel/setup.bash
 roslaunch ur5_new_robot spawn_ur5_new_robot.launch
 "Click play button on Gazebo window"
 
-# new_terminal_1
+# new_terminal_1 (Rviz)
+source ~/hri_ws/devel/setup.bash
 roslaunch ur5_moveit_config moveit_rviz.launch
 
-# new_terminal_2
+# new_terminal_2 (APPF_node)
+source ~/hri_ws/devel/setup.bash
+rosrun ur5_interface AAPF_node.py
 
+# new_terminal_3 (Dummy_node)
+source ~/hri_ws/devel/setup.bash
+rosrun ur5_interface dummy_test.py
 
+# new_terminal_4 (Moveit_node)
+source ~/hri_ws/devel/setup.bash
+rosrun ur5_interface moveit_node.py
+"Wait for robot move to Start Pos then press Enter"
 
 
 ## Nhan-------------------------------------------
